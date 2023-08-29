@@ -8,6 +8,18 @@ from send2trash import send2trash
 import functools
 
 
+from loguru import logger
+
+# Настройка логирования в файл и на консоль
+logger.add("app.log", rotation="500 MB", compression="zip")
+logger.add(sink="console", format="<green>{time}</green> <level>{message}</level>")
+
+#logger.debug("Это отладочное сообщение")
+#logger.info("Это информационное сообщение")
+#logger.warning("Это предупреждение")
+#logger.error("Это сообщение об ошибке")
+
+
 # "C:\Windows\System32\cmd.exe" /k команда
 # pyinstaller --onefile canon_downloader.py
 
@@ -27,9 +39,9 @@ def progress_checker(start: str, finish: str = '	✓'):
 	def decorator(func):
 		@functools.wraps(func)
 		def wrapper(*args, **kwargs):
-			print(start, end='')
+			logger.info(start, end='')
 			val = func(*args, **kwargs)
-			print(finish)
+			logger.info(finish)
 			return val
 		return wrapper
 	return decorator
@@ -69,8 +81,8 @@ class Images:
 
 class FileMover:
 	""" Перемещает фотографии из cd-карты фотоапарата в папку Client"""
-	photo_path = [Path('D:/DCIM/100CANON'), Path('H:/DCIM/100CANON'), Path('G:/DCIM/100CANON')]
-	target_path = Path('C:/Users/bolat/Desktop/Client/neiro')
+	photo_path = [Path('D:/DCIM/100CANON'), Path('H:/DCIM/100CANON'), Path('G:/DCIM/100CANON'), Path('E:/DCIM/100CANON')]
+	target_path = Path('C:/Users/Астана11б/Pictures/Client/neiro')
 
 	@progress_checker(start='Перемещаем фотографии с cd-карты камеры в папку Client')
 	def move(self):
@@ -113,8 +125,8 @@ class Remover:
 
 
 if __name__ == '__main__':
-	path = Path("C:/Users/bolat/Desktop/Client/neiro")
-	path_to_save = Path("C:/Users/bolat/Desktop/Client/neiro+")
+	path = Path("C:/Users/Астана11б/Pictures/Client/neiro")
+	path_to_save = Path("C:/Users/Астана11б/Pictures/Client/neiro+")
 
 	Images(path).delete_images(only_renamed=True)
 	Images(path_to_save).delete_images()

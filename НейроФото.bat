@@ -1,1 +1,1 @@
-python C:\Users\bolat\Desktop\my_programs\CanonDownloader\canon_downloader.py
+venv\Scripts\python canon_downloader.py
